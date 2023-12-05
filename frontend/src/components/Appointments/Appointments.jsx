@@ -20,7 +20,6 @@ const Appointments = () => {
     const appointments = useSelector(state => state.appointments)
 
     const [modalEditAppointmentShow, setModalEditAppointmentShow] = useState(false);
-    const [modalDeleteShow, setDeleteShow] = useState(false);
 
     const [selectedAppointment, setSelectedAppointment] = useState(null);
 

@@ -61,9 +61,9 @@ const getDisponibilityHour = async (selectedDate) => {
 
 const createNewAppointment = async (date, hour, id_patient) => {
     
+    // límite de 1 turno por día
     const currentDate = new Date();
 
-    // límite de 1 turno por día
     const existingAppointment = await Appointment.findOne({
         where: {
             id_patient,
@@ -78,6 +78,7 @@ const createNewAppointment = async (date, hour, id_patient) => {
         return { message: 'Solo se permite programar un turno por día' };
     }
 
+    // Limite de 4 turnos por mes
     const currentMonth = new Date().getMonth() + 1;
     const existingAppointmentsCountThisMonth = await Appointment.count({
         where: {
@@ -95,7 +96,7 @@ const createNewAppointment = async (date, hour, id_patient) => {
         return { message: 'No se pueden agregar más de 4 citas por mes' };
     }
 
-
+    // Limite de 4 turnos para una misma fecha y hora
     const existingAppointmentsCount = await Appointment.count({
         where: {
             date,

@@ -23,9 +23,9 @@ const getMedicalHistoryByPatient = async (req, res) => {
 
 const createNewMedicalHistory = async (req, res) => {
     try {
-        const { diagnostic, notes, background, id_patient, emergencyContact, medicationAllergies, currentMedications, previusInjuries, currentSymptoms } = req.body
-       
-        const newMedicalHistory = await createMedicalHistory({diagnostic, notes, background, id_patient, emergencyContact, medicationAllergies, currentMedications, previusInjuries, currentSymptoms  })
+        const { diagnostic, notes, id_patient, socialWelfare, medicationAllergies, currentMedications, previusInjuries, currentSymptoms } = req.body
+        
+        const newMedicalHistory = await createMedicalHistory({diagnostic, notes, id_patient, socialWelfare, medicationAllergies, currentMedications, previusInjuries, currentSymptoms  })
             res.status(200).json(newMedicalHistory)
     } catch (error) {
         res.status(400).json({ error: error.message })

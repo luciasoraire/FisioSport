@@ -10,7 +10,7 @@ const EditMedicalHistory = (props) => {
 
     const [patient, setPatient] = useState({
         diagnostic: '',
-        emergencyContact: '',
+        socialWelfare: '',
         medicationAllergies: '',
         currentMedications: '',
         previusInjuries: '',
@@ -68,7 +68,7 @@ const EditMedicalHistory = (props) => {
                     text: "Los cambios fueron guardados.",
                     icon: "success"
                 });
-                axios.post('http://localhost:3001/fisiosport/history/', {...patient, id_patient: props.patient.id_patient})
+                axios.post('http://localhost:3001/fisiosport/history', {...patient, id_patient: props.patient.id_patient})
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -94,7 +94,7 @@ const EditMedicalHistory = (props) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter" className='containerHeaderModal'>
-                    Historial Medico
+                    Historial Clínico
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body >
@@ -122,12 +122,12 @@ const EditMedicalHistory = (props) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="emergencyContact">Contacto de Emergencia(opcional):</label>
+                        <label htmlFor="socialWelfare">Obra Social:</label>
                         <input
                             type="text"
-                            id="emergencyContact"
-                            name="emergencyContact"
-                            value={patient?.emergencyContact}
+                            id="socialWelfare"
+                            name="socialWelfare"
+                            value={patient?.socialWelfare}
                             onChange={handleChange}
                         />
                     </div>
