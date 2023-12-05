@@ -1,6 +1,9 @@
-const { Appointment, Patient } = require('../../db')
+const { Appointment, Patient, sequelize  } = require('../../db')
 const { Sequelize } = require('sequelize');
 const moment = require('moment');
+const { Op } = require('sequelize');
+const { startOfDay, endOfDay } = require('date-fns');
+
 const allAppointments = async () => {
 
     const appointments = await Appointment.findAll(
@@ -57,7 +60,42 @@ const getDisponibilityHour = async (selectedDate) => {
 }
 
 const createNewAppointment = async (date, hour, id_patient) => {
-    console.log(date + 'asdadasda');
+    
+    const currentDate = new Date();
+
+    // límite de 1 turno por día
+    const existingAppointment = await Appointment.findOne({
+        where: {
+            id_patient,
+            createdAt: {
+                [Op.gte]: startOfDay(currentDate),
+                [Op.lt]: startOfDay(new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)), // Fin del día actual
+            },
+        },
+    });
+
+    if (existingAppointment) {
+        return { message: 'Solo se permite programar un turno por día' };
+    }
+
+    const currentMonth = new Date().getMonth() + 1;
+    const existingAppointmentsCountThisMonth = await Appointment.count({
+        where: {
+            id_patient,
+            createdAt: {
+                [Op.and]: [
+                    sequelize.literal(`EXTRACT(MONTH FROM "createdAt") = ${currentMonth}`),
+                    sequelize.literal(`EXTRACT(YEAR FROM "createdAt") = ${new Date().getFullYear()}`),
+                ],
+            },
+        },
+    });
+
+    if (existingAppointmentsCountThisMonth >= 4) {
+        return { message: 'No se pueden agregar más de 4 citas por mes' };
+    }
+
+
     const existingAppointmentsCount = await Appointment.count({
         where: {
             date,

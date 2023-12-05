@@ -23,7 +23,7 @@ const getDisponibility = async (req, res) => {
 const createAppointment = async (req, res) => {
     try {
         const { date, hour, id_patient } = req.body
-        console.log(date, hour, id_patient);
+      
         const newAppointment = await createNewAppointment(date, hour, id_patient)
             res.status(200).json(newAppointment)
     } catch (error) {
