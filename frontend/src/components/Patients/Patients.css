@@ -29,31 +29,12 @@
 
     width: 95%;
     padding: 10px;
-    height: 50px;
+    height:65px;
     gap: 10px;
 }
 
 .containerFilterPatients p {
     margin: 0;
-}
-
-.containerFilterPatients input{
-    width: 230px;
-    height: 30px;
-    padding-left: 5px;
-    border: none;
-    border-radius: 8px;
-    background-color: #A9D0D5;
-    outline: none;
-    color: white;
-}
-
-.containerFilterPatients input:hover {
-    background-color: #F08C30;
-}
-
-.containerFilterPatients input::placeholder {
-    color: white;
 }
 
 .containerTablePatients {
@@ -179,4 +160,8 @@
 .buttonViewMedicalHistory:hover {
     background-color: #F08C30;
     transition: 0.3s ease;
+}
+
+#outlined-basic {
+    height: 15px;
 }
