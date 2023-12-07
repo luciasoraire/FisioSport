@@ -10,49 +10,33 @@
     display: flex;
     justify-content: left;
     align-items: center;
-    height: 50px;
+    height:65px;
     gap: 10px;
-}
-
-.containerInputsAppointment p {
-    margin: 0;
-}
-
-.containerInputsAppointment input {
-    width: 180px;
-    height: 30px;
-    padding-left: 5px;
-    border: none;
-    border-radius: 8px;
-    background-color: #A9D0D5;
-    outline: none;
-    color: white;
-}
-
-.containerInputsAppointment input:hover {
-    background-color: #F08C30;
-}
-
-.containerInputsAppointment input::placeholder {
-    color: white;
+    
 }
 
 .containerDropAppointment {
     width: 30%;
+    height: 65px;
     display: flex;
     justify-content: right;
     align-items: center;
     gap: 10px;
 }
-.containerDropAppointment p {
+
+
+.statusActive {
+    background-color: #447DBF;
+    color: white;
+    border-radius: 8px;
     margin: 0;
 }
 
-#dropdown-item-button {
-    background-color: #A9D0D5 ;
-    border: none;
+.statusInactive {
+    background-color: rgb(172, 68, 68);
+    color: white;
+    border-radius: 8px;
+    margin: 0;
 }
 
-#dropdown-item-button:hover {
-    background-color: #F08C30;
-}
+

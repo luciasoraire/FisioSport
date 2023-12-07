@@ -14,6 +14,10 @@ module.exports = (sequelize) => {
             },
             hour: {
                 type: DataTypes.STRING
+            },
+            active: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true
             }
         }
     )

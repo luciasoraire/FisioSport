@@ -4,7 +4,7 @@ export const GET_ALL_PATIENTS = 'GET_ALL_PATIENTS'
 export const GET_ALL_APPOINTMENTS = 'GET_ALL_APPOINTMENTS'
 export const GET_ALL_MEDICAL_HISTORIES = 'GET_ALL_MEDICAL_HISTORIES'
 export const FILTER_BY_DNI_OR_EMAIL = 'FILTER_BY_DNI_OR_EMAIL'
-export const ORDER_APPOINTMENTS_BY_DATE = 'ORDER_APPOINTMENTS_BY_DATE'
+export const SET_ORDER = 'SET_ORDER'
 export const SAVE_PATIENT_INFO = 'SAVE_PATIENT_INFO'
 export const GET_PATIENT_INFO = 'GET_PATIENT_INFO'
 export const UPDATE_PATIENT_INFO = 'UPDATE_PATIENT_INFO'
@@ -63,20 +63,21 @@ export const filterByDNIOrEmail = (data) => {
     }
 }
 
-export const orderByDate = (order) => {
-    return async (dispatch) => {
-        return dispatch({
-            type: ORDER_APPOINTMENTS_BY_DATE,
-            payload: order
-        })
-    }
-}
 
 export const savePatientInfo = (data) => {
     return async (dispatch) => {
         return dispatch({
             type: SAVE_PATIENT_INFO,
             payload: data
+        })
+    }
+}
+
+export const setOrder = (orderBy) => {
+    return async (dispatch) => {
+        return dispatch({
+            type: SET_ORDER,
+            payload: orderBy
         })
     }
 }

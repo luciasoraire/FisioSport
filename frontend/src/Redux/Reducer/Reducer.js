@@ -1,4 +1,4 @@
-import { DELETE_APPOINTMENT, DELETE_PATIENT_INFO, FILTER_BY_DNI_OR_EMAIL, GET_ALL_APPOINTMENTS, GET_ALL_MEDICAL_HISTORIES, GET_ALL_PATIENTS, GET_PATIENT_INFO, ORDER_APPOINTMENTS_BY_DATE, SAVE_PATIENT_INFO, UPDATE_APPOINTMENT, UPDATE_PATIENT_INFO, USER_AUTH } from "../Actions/Actions"
+import { DELETE_APPOINTMENT, DELETE_PATIENT_INFO, FILTER_BY_DNI_OR_EMAIL, GET_ALL_APPOINTMENTS, GET_ALL_MEDICAL_HISTORIES, GET_ALL_PATIENTS, GET_PATIENT_INFO, SAVE_PATIENT_INFO, SET_ORDER, UPDATE_APPOINTMENT, UPDATE_PATIENT_INFO, USER_AUTH } from "../Actions/Actions"
 
 const initialState = {
     patients: [],
@@ -58,28 +58,7 @@ const reducer = (state = initialState, action) => {
                 }
             }
         }
-        case FILTER_BY_DNI_OR_EMAIL: {
-            const { stateName, stateNameToFilter, propertyName, value } = action.payload;
 
-            const filteredData = [...state.filters[stateNameToFilter]].filter(element => {
-                if (element[[propertyName]]) {
-                    return element[propertyName].toLowerCase().includes(value.toLowerCase())
-                }
-                else {
-                    return element.Patient[propertyName].toLowerCase().includes(value.toLowerCase())
-                }
-            });
-            return {
-                ...state,
-                [stateName]: filteredData
-            }
-        }
-        case ORDER_APPOINTMENTS_BY_DATE: {
-            return {
-                ...state,
-                appointments: action.payload,
-            }
-        }
         case SAVE_PATIENT_INFO: {
             return {
                 ...state,
@@ -127,6 +106,74 @@ const reducer = (state = initialState, action) => {
                 appointments: state.appointments.map(appointment =>
                     appointment.id_appointment === id_appointment ? action.payload : appointment
                 )
+            }
+        }
+
+        case FILTER_BY_DNI_OR_EMAIL: {
+            const { stateName, stateNameToFilter, propertyName, value } = action.payload;
+
+            const filteredData = [...state.filters[stateNameToFilter]].filter(element => {
+                if (element[[propertyName]]) {
+                    return element[propertyName].toLowerCase().includes(value.toLowerCase())
+                }
+                else {
+                    return element.Patient[propertyName].toLowerCase().includes(value.toLowerCase())
+                }
+            });
+            return {
+                ...state,
+                [stateName]: filteredData
+            }
+        }
+
+        case SET_ORDER: {
+            let appointmentsFiltered = [...state.appointments]
+            console.log(action.payload);
+            if (action.payload.status !== '') {
+                if (action.payload.status === 'activo') appointmentsFiltered = [...state.filters.appointmentsToFilter].filter(appointment => appointment.active === true)
+                else if (action.payload.status === 'inactivo') appointmentsFiltered = [...state.filters.appointmentsToFilter].filter(appointment => appointment.active === false)
+                else appointmentsFiltered = [...state.filters.appointmentsToFilter]
+            }
+            if (action.payload.date !== '') {
+                const formatToYYYYMMDD = (originalDate) => {
+
+                    const [day, month, year] = originalDate.split('/');
+                    return new Date(`${year}/${month}/${day}`);
+                };
+
+                appointmentsFiltered = [...appointmentsFiltered].sort((a, b) => {
+                    const dateA = formatToYYYYMMDD(a.date);
+                    const dateB = formatToYYYYMMDD(b.date);
+                    console.log(dateA);
+                    if (action.payload.date === 'proximo') {
+
+                        return dateA - dateB;
+                    } else if (action.payload.date === 'lejano') {
+                        return dateB - dateA;
+                    }
+
+                    // Por defecto, mantener el orden actual
+                    return 0;
+                });
+
+            }
+            if (action.payload.hour) {
+                appointmentsFiltered = [...appointmentsFiltered].sort((a, b) => {
+                    const timeA = a.hour;
+                    const timeB = b.hour;
+
+                    if (action.payload.hour === 'proximo') {
+                        return timeA.localeCompare(timeB);
+                    } else if (action.payload.hour === 'lejano') {
+                        return timeB.localeCompare(timeA);
+                    }
+                    
+                    return 0;
+                });
+            }
+            return {
+                ...state,
+                appointments: appointmentsFiltered
             }
         }
         default: {

@@ -63,7 +63,7 @@ const createNewAppointment = async (date, hour, id_patient) => {
     
     // límite de 1 turno por día
     const currentDate = new Date();
-
+   
     const existingAppointment = await Appointment.findOne({
         where: {
             id_patient,
@@ -111,7 +111,8 @@ const createNewAppointment = async (date, hour, id_patient) => {
     const appointmentsCreated = await Appointment.create({
         date,
         hour,
-        id_patient
+        id_patient,
+        
     })
     return appointmentsCreated
 }
