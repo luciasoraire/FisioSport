@@ -3,18 +3,19 @@ import './PatientInfo.css'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 import { savePatientInfo, updatePatientInfo } from '../../Redux/Actions/Actions';
-
+import Swal from 'sweetalert2'
 const PatientInfo = () => {
     const dispatch = useDispatch();
 
     const patientInfo = useSelector((state) => state.patientInfo);
+    const userAuth = useSelector(state => state.userAuth)
     useEffect(() => {
         setFormData({
             name: patientInfo?.name,
             lastname: patientInfo?.lastname,
             phone: patientInfo?.phone,
             dni: patientInfo?.dni,
-            email: patientInfo?.email,
+            email: userAuth?.email,
             age: patientInfo?.age
         })
     }, [patientInfo])
@@ -25,7 +26,7 @@ const PatientInfo = () => {
         lastname: '',
         phone: '',
         dni: '',
-        email: '',
+        email: userAuth?.email,
         age: ''
     });
     const [edit, setEdit] = useState(false)
@@ -44,7 +45,24 @@ const PatientInfo = () => {
             'http://localhost:3001/fisiosport/patient',
             formData
         );
-        dispatch(savePatientInfo(response.data));
+
+        if(response.data.message)
+        {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: response.data.message,
+              })
+        }
+        else
+        {
+            Swal.fire({
+                title: "Informacion cargada!",
+                text: "Gracias!",
+                icon: "success"
+            });
+            dispatch(savePatientInfo(response.data));
+        }
     };
 
     const updatePatient = () => {
@@ -129,16 +147,7 @@ const PatientInfo = () => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className='labelsAndInputs'>
-                                <label htmlFor="email">Correo electrónico</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    value={formData?.email}
-                                    onChange={handleChange}
-                                />
-                            </div>
+                            
                             <div className='containerButtonSubmit'>
                                 <button type="submit">Guardar</button>
                             </div>
