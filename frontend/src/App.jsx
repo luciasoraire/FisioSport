@@ -13,10 +13,31 @@ import NavBar from './components/NavBar/NavBar'
 import Footer from './components/Footer/Footer'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import PatientInfo from './pages/PatientInfo/PatientInfo'
+import Cookies from 'js-cookie';
 
 function App() {
 
   const location = useLocation()
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const checkTokenAndSignIn = async () => {
+      const existingToken = Cookies.get('token');
+
+      if (existingToken) {
+        const response = await dispatch(userAuth({ token: existingToken }));
+
+        if (response.payload.authenticated) {
+          console.log('Inicio de sesión automático exitoso');
+        } else {
+          console.log('No se pudo realizar el inicio de sesión automático');
+        }
+      }
+    };
+
+    checkTokenAndSignIn();
+  }, []);
 
   return (
     <div className='app'>

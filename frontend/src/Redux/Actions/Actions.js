@@ -11,14 +11,22 @@ export const UPDATE_PATIENT_INFO = 'UPDATE_PATIENT_INFO'
 export const DELETE_PATIENT_INFO = 'DELETE_PATIENT_INFO'
 export const DELETE_APPOINTMENT = 'DELETE_APPOINTMENT'
 export const UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT'
+export const USER_AUTH_TOKEN = 'USER_AUTH_TOKEN'
 
 export const userAuth = (user) => {
     return async (dispatch) => {
-        const response = await axios.post(`http://localhost:3001/fisiosport/user/login`, user)
+        const response = await axios.post(`http://localhost:3001/fisiosport/user/login`, user, { withCredentials: true })
+        console.log(response.data);
         return dispatch({
             type: USER_AUTH,
             payload: response.data
         })
+    }
+}
+
+export const userAuthToken = (token) => {
+    return async (dispatch) => {
+        const response = await axios.post('http://localhost:3001/fisiosport/user/login-token')
     }
 }
 
