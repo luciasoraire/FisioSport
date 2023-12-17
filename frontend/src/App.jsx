@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -14,6 +14,9 @@ import Footer from './components/Footer/Footer'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import PatientInfo from './pages/PatientInfo/PatientInfo'
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux'
+import { userAuthToken } from './Redux/Actions/Actions'
+import ForgotPassPage from './pages/ForgotPassPage/ForgotPassPage'
 
 function App() {
 
@@ -24,15 +27,9 @@ function App() {
   useEffect(() => {
     const checkTokenAndSignIn = async () => {
       const existingToken = Cookies.get('token');
-
+      
       if (existingToken) {
-        const response = await dispatch(userAuth({ token: existingToken }));
-
-        if (response.payload.authenticated) {
-          console.log('Inicio de sesión automático exitoso');
-        } else {
-          console.log('No se pudo realizar el inicio de sesión automático');
-        }
+        dispatch(userAuthToken(existingToken));
       }
     };
 
@@ -43,12 +40,14 @@ function App() {
     <div className='app'>
       {location.pathname !== '/admin' &&
       location.pathname !== '/login' &&
+      !location.pathname.startsWith('/forgot/') &&
       location.pathname !== '/register' &&
       <NavBar/>}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/contacto' element={<ContactPage />} />
         <Route path='/login' element={<LoginPage />} />
+        <Route path='/forgot/:token' element={<ForgotPassPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/admin' element={<AdminPage />} />
         <Route path='/turno' element={<AppointmentPage />} />
@@ -58,6 +57,7 @@ function App() {
       </Routes>
       {location.pathname !== '/admin' &&
       location.pathname !== '/login' &&
+      !location.pathname.startsWith('/forgot/') &&
       location.pathname !== '/register' && <Footer/>
       }
     </div> 

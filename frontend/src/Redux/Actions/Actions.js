@@ -17,16 +17,37 @@ export const userAuth = (user) => {
     return async (dispatch) => {
         const response = await axios.post(`http://localhost:3001/fisiosport/user/login`, user, { withCredentials: true })
         console.log(response.data);
-        return dispatch({
+        dispatch({
             type: USER_AUTH,
             payload: response.data
         })
+
+        if(response.data.authenticated)
+        {
+            dispatch(getPatientInfo(user.email));
+            return true
+        }
+        
     }
 }
 
 export const userAuthToken = (token) => {
     return async (dispatch) => {
-        const response = await axios.post('http://localhost:3001/fisiosport/user/login-token')
+        try {
+            const response = await axios.post('http://localhost:3001/fisiosport/user/login-token', {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            return dispatch({
+                type: USER_AUTH,
+                payload: response.data
+            })
+        } catch (error) {
+            console.error('Error al enviar token:', error.message);
+        }
     }
 }
 
