@@ -12,6 +12,7 @@ export const DELETE_PATIENT_INFO = 'DELETE_PATIENT_INFO'
 export const DELETE_APPOINTMENT = 'DELETE_APPOINTMENT'
 export const UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT'
 export const USER_AUTH_TOKEN = 'USER_AUTH_TOKEN'
+export const CLOSE_SESION = 'CLOSE_SESION'
 
 export const userAuth = (user) => {
     return async (dispatch) => {
@@ -28,6 +29,15 @@ export const userAuth = (user) => {
             return true
         }
         
+    }
+}
+
+
+export const closeSesion = () => {
+    return async (dispatch) => {
+        return dispatch({
+            type: CLOSE_SESION,
+        })
     }
 }
 

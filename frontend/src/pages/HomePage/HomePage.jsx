@@ -19,7 +19,7 @@ const HomePage = () => {
     <div>
 
 <div className="titulovideo">
-      <video src={Intro} className="videointro" autoPlay loop />
+      <video src='https://res.cloudinary.com/djdqwkavb/video/upload/v1702782950/intro_l6fqwh.mp4' className="videointro" autoPlay loop />
       <Link to="/turno" className="titulosobrevideo"><h1>Solicite su turno</h1></Link>
       </div>
 

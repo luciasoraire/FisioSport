@@ -1,4 +1,4 @@
-import { DELETE_APPOINTMENT, DELETE_PATIENT_INFO, FILTER_BY_DNI_OR_EMAIL, GET_ALL_APPOINTMENTS, GET_ALL_MEDICAL_HISTORIES, GET_ALL_PATIENTS, GET_PATIENT_INFO, SAVE_PATIENT_INFO, SET_ORDER, UPDATE_APPOINTMENT, UPDATE_PATIENT_INFO, USER_AUTH } from "../Actions/Actions"
+import { CLOSE_SESION, DELETE_APPOINTMENT, DELETE_PATIENT_INFO, FILTER_BY_DNI_OR_EMAIL, GET_ALL_APPOINTMENTS, GET_ALL_MEDICAL_HISTORIES, GET_ALL_PATIENTS, GET_PATIENT_INFO, SAVE_PATIENT_INFO, SET_ORDER, UPDATE_APPOINTMENT, UPDATE_PATIENT_INFO, USER_AUTH } from "../Actions/Actions"
 
 const initialState = {
     patients: [],
@@ -25,6 +25,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 userAuth: action.payload
+            }
+        }
+        case CLOSE_SESION: {
+            return {
+                userAuth: {
+                    authenticated: false,
+                    isAdmin: false,
+                    email: null
+                }
             }
         }
         case GET_ALL_PATIENTS: {
