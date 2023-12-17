@@ -14,9 +14,10 @@ import Footer from './components/Footer/Footer'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import PatientInfo from './pages/PatientInfo/PatientInfo'
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userAuthToken } from './Redux/Actions/Actions'
 import ForgotPassPage from './pages/ForgotPassPage/ForgotPassPage'
+import ProtectedRoute from './utils/ProtectedRoute'
 
 function App() {
 
@@ -24,10 +25,12 @@ function App() {
 
   const dispatch = useDispatch();
 
+  const userAuth = useSelector(state => state.userAuth)
+
   useEffect(() => {
     const checkTokenAndSignIn = async () => {
       const existingToken = Cookies.get('token');
-      
+
       if (existingToken) {
         dispatch(userAuthToken(existingToken));
       }
@@ -39,29 +42,33 @@ function App() {
   return (
     <div className='app'>
       {location.pathname !== '/admin' &&
-      location.pathname !== '/login' &&
-      !location.pathname.startsWith('/forgot/') &&
-      location.pathname !== '/register' &&
-      <NavBar/>}
+        location.pathname !== '/login' &&
+        !location.pathname.startsWith('/forgot/') &&
+        location.pathname !== '/register' &&
+        <NavBar />}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/contacto' element={<ContactPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/forgot/:token' element={<ForgotPassPage />} />
         <Route path='/register' element={<RegisterPage />} />
-        <Route path='/admin' element={<AdminPage />} />
-        <Route path='/turno' element={<AppointmentPage />} />
+        <Route element={<ProtectedRoute canActivate={userAuth.isAdmin} />}>
+          <Route path='/admin' element={<AdminPage />} />
+        </Route>
+        <Route element={<ProtectedRoute canActivate={userAuth.authenticated} />}>
+          <Route path='/turno' element={<AppointmentPage />} />
+          <Route path='/info' element={<PatientInfo />} />
+        </Route>
         <Route path='/about' element={<AboutPage />} />
-        <Route path='/info' element={<PatientInfo />} />
 
       </Routes>
       {location.pathname !== '/admin' &&
-      location.pathname !== '/login' &&
-      !location.pathname.startsWith('/forgot/') &&
-      location.pathname !== '/register' && <Footer/>
+        location.pathname !== '/login' &&
+        !location.pathname.startsWith('/forgot/') &&
+        location.pathname !== '/register' && <Footer />
       }
-    </div> 
-  )  
+    </div>
+  )
 }
 
 export default App

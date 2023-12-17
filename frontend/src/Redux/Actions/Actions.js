@@ -41,10 +41,11 @@ export const userAuthToken = (token) => {
                     },
                 }
             );
-            return dispatch({
+            dispatch({
                 type: USER_AUTH,
                 payload: response.data
             })
+            dispatch(getPatientInfo(response.data.email));
         } catch (error) {
             console.error('Error al enviar token:', error.message);
         }
@@ -115,7 +116,7 @@ export const setOrder = (orderBy) => {
 export const getPatientInfo = (userId) => {
     return async (dispatch) => {
         const response = await axios.get(`http://localhost:3001/fisiosport/patient/info/${userId}`)
-        console.log(response.data);
+       
         return dispatch({
             type: GET_PATIENT_INFO,
             payload: response.data
