@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Logo from './../../assets/logo.png'
+import Logo from './../../assets/logoazul.png'
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
 import { useSelector } from "react-redux";
@@ -17,34 +17,38 @@ const NavBar = () => {
     }
 
     return (
-        <>
+    
+        
+        <><div className="navbar">
             <nav>
                 <a href="#">
                     <img src={Logo} alt="" className='logo' />
                 </a>
-                <div>
+                <div className="itemsnavbar">
                     <ul id='navbar' className={clicked ? "#navbar active" : "#navbar"}>
-                        <li>
-                            <i class="fa-solid fa-house "></i><NavLink to="/"> Inicio</NavLink>
+                        <li className="itemnavbar">
+                        <NavLink to="/#"><i class="fa-solid fa-house "></i><NavLink to="/"> Inicio</NavLink></NavLink>
                         </li>
-                        { userAuth.authenticated && <li>
-                            <i class="fa-solid fa-calendar-days"></i> <NavLink to="/turno"> Turnos</NavLink>
+                        { userAuth.authenticated && <li className="itemnavbar">
+                            <i class="fa-solid fa-calendar"></i> <NavLink to="/turno"> Turnos</NavLink>
                         </li>}
-                        <li>
+                        <li className="itemnavbar">
                             <NavLink to="/contacto"><i class="fa-solid fa-phone"></i> Contacto</NavLink>
                         </li>
-                        <div>
+                     
+                       
                             {
-                               !userAuth.authenticated && <li><NavLink to="/login" activeClassName="active"><i class="fa-solid fa-user"></i> Iniciar Sesión</NavLink></li>              
+                               !userAuth.authenticated && <li className="itemnavbar" id="iniciarsesion"><NavLink to="/login" activeClassName="active"><i class="fa-solid fa-user"></i> Iniciar Sesión</NavLink></li>              
                             }
                             {   
-                                userAuth.authenticated && !userAuth.isAdmin && <li><NavLink to="/info" activeClassName="active"><i class="fa-solid fa-user"></i>Informacion Personal</NavLink></li>
+                                userAuth.authenticated && !userAuth.isAdmin && <li className="itemnavbar"><i class="fa-solid fa-user"></i><NavLink to="/info" activeClassName="active">Información Personal</NavLink></li>
                             }
                             {   
-                                userAuth.isAdmin && <li><i class="fa-solid fa-table"></i><NavLink to="/admin" activeClassName="active">Dashboard</NavLink></li>
-                            }
+                                userAuth.isAdmin && <li className="itemnavbar">
+                                    <i class="fa-solid fa-table"></i> <NavLink to="/admin" activeClassName="active">Dashboard</NavLink>
+                            </li>}
                             
-                        </div>
+                       
 
                     </ul>
                 </div>
@@ -53,6 +57,7 @@ const NavBar = () => {
 
                 </div>
             </nav>
+            </div>
         </>
     );
 };
