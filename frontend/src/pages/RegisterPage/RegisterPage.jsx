@@ -1,4 +1,5 @@
 import React from 'react';
+import "./RegisterPage.css";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
