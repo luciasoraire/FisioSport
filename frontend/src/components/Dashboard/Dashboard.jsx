@@ -91,7 +91,7 @@ const Dashboard = () => {
                     </div>
                     <div className='statsInfo'>
                         <p className='titleStat'>Pacientes</p>
-                        <p className='stat'>{patients.length}</p>
+                        <p className='stat'>1</p>
                     </div>
                 </div>
                 <div className='stats'>
@@ -100,7 +100,7 @@ const Dashboard = () => {
                     </div>
                     <div className='statsInfo'>
                         <p className='titleStat'>Turnos</p>
-                        <p className='stat'>{appointments.length}</p>
+                        <p className='stat'>1</p>
                     </div>
                 </div>
             </div>

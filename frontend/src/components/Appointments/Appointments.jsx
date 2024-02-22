@@ -1,8 +1,8 @@
 import './Appointments.css'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTable, usePagination } from 'react-table';
 import { useDispatch, useSelector } from "react-redux"
-import { deleteAppointment, filterByDNIOrEmail, orderByDate } from '../../Redux/Actions/Actions';
+import { deleteAppointment, filterByDNIOrEmail, setOrder } from '../../Redux/Actions/Actions';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,17 +10,39 @@ import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-ico
 import EditAppointment from '../../modals/EditAppointment/EditAppointment';
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
-
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import Swal from 'sweetalert2'
+import TextField from '@mui/material/TextField';
+
 
 const Appointments = () => {
-
     const dispatch = useDispatch()
+
+    const [orderBy, setOrderBy] = useState({
+        status: '',
+        date: '',
+        hour: ''
+    });
+
+    const handleChange = (event) => {
+        setOrderBy({
+            ...orderBy,
+            [event.target.name]: event.target.value
+        });
+    };
+
+    useEffect(() => {
+
+        dispatch(setOrder(orderBy))
+    }, [orderBy])
 
     const appointments = useSelector(state => state.appointments)
 
     const [modalEditAppointmentShow, setModalEditAppointmentShow] = useState(false);
-    const [modalDeleteShow, setDeleteShow] = useState(false);
 
     const [selectedAppointment, setSelectedAppointment] = useState(null);
 
@@ -100,6 +122,15 @@ const Appointments = () => {
                 accessor: 'hour',
             },
             {
+                Header: 'Estado',
+                accessor: 'active',
+                Cell: ({ value }) => (
+                    value
+                        ? <p className='statusActive'>Activo</p>
+                        : <p className='statusInactive'>Inactivo</p>
+                ),
+            },
+            {
                 Header: 'Acciones',
                 accesor: 'actions',
                 Cell: ({ row }) => (
@@ -137,59 +168,6 @@ const Appointments = () => {
         dispatch(filterByDNIOrEmail({ stateName: 'appointments', stateNameToFilter: 'appointmentsToFilter', propertyName: e.target.name, value: e.target.value }))
     }
 
-    const [orderAppointment, setOrderAppointment] = useState({
-        date: '',
-        hour: ''
-    })
-
-    const handleOrderChange = (eventKey, orderType) => {
-
-        setOrderAppointment({
-            ...orderAppointment,
-            [orderType]: eventKey
-        })
-
-        const appointmentsToFilter = [...appointments]
-
-        const orderedAppointments = appointmentsToFilter.sort((a, b) => {
-            const parseDate = (dateString) => {
-                const [day, month, year] = dateString.split('/');
-                return new Date(`${year}-${month}-${day}`);
-            };
-
-            const parseTime = (timeString) => {
-                const [hour, minute] = timeString.split(':');
-                return { hour: parseInt(hour), minute: parseInt(minute) };
-            };
-
-            const parseDateTime = (dateTimeString) => {
-                const [date, time] = dateTimeString.split('T');
-                const dateObj = parseDate(date);
-                const timeObj = parseTime(time);
-                return new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), timeObj.hour, timeObj.minute);
-            };
-
-            const dateTimeA = parseDateTime(`${a.date}T${a.hour}`);
-            const dateTimeB = parseDateTime(`${b.date}T${b.hour}`);
-
-            if (orderType === 'date') {
-                if (eventKey === 'proximo') {
-                    return dateTimeA - dateTimeB;
-                } else if (eventKey === 'lejano') {
-                    return dateTimeB - dateTimeA;
-                }
-            } else if (orderType === 'hour') {
-                const timeDiff = parseTime(a.hour).hour * 60 + parseTime(a.hour).minute - (parseTime(b.hour).hour * 60 + parseTime(b.hour).minute);
-                return eventKey === 'proximo' ? timeDiff : -timeDiff;
-            }
-
-            return 0;
-        });
-
-        dispatch(orderByDate(orderedAppointments));
-
-    }
-
     return (
         <div className='containerPatients'>
             <div className='titlePatients'>
@@ -197,24 +175,65 @@ const Appointments = () => {
             </div>
             <div className='containerFilterAppointment'>
                 <div className='containerInputsAppointment'>
-                    <p>Buscar por: </p>
-                    <input type="text" name='dni' onChange={handleFilterChange} placeholder='DNI' />
-                    <input type="text" name='email' onChange={handleFilterChange} placeholder='EMAIL' />
-                    <input type="text" name='date' onChange={handleFilterChange} placeholder='DATE' />
+                    <TextField id="outlined-basic" name='dni' label="DNI" variant="outlined" onChange={handleFilterChange} />
+                    <TextField id="outlined-basic" name='email' label="Email" variant="outlined" onChange={handleFilterChange} />
+                    <TextField id="outlined-basic" name='date' label="Fecha" variant="outlined" onChange={handleFilterChange} />
                 </div>
                 <div className='containerDropAppointment'>
-                    <p>Ordenar por: </p>
-                    <DropdownButton id="dropdown-item-button" title="Fecha" onSelect={(eventKey) => handleOrderChange(eventKey, 'date')} className='dropDown'>
-                        <Dropdown.Item as="button">Ordenar por</Dropdown.Item>
-                        <Dropdown.Item as="button" eventKey='proximo'>Mas proximos</Dropdown.Item>
-                        <Dropdown.Item as="button" eventKey='lejano'>Mas lejanos</Dropdown.Item>
-                    </DropdownButton>
+                    <Box sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth >
+                            <InputLabel id="demo-simple-select-label" >Estado</InputLabel>
+                            <Select
+                                sx={{ height: 50 }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={orderBy.status}
+                                label="Estado"
+                                name='status'
+                                onChange={handleChange}
+                            >
+                                <MenuItem value='todos'>Todos</MenuItem>
+                                <MenuItem value='activo'>Activo</MenuItem>
+                                <MenuItem value='inactivo'>Inactivo</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
 
-                    <DropdownButton id="dropdown-item-button" title="Horario" onSelect={(eventKey) => handleOrderChange(eventKey, 'hour')} className='dropDown'>
-                        <Dropdown.Item as="button">Ordenar por</Dropdown.Item>
-                        <Dropdown.Item as="button" eventKey='proximo'>Mas proximos</Dropdown.Item>
-                        <Dropdown.Item as="button" eventKey='lejano'>Mas lejanos</Dropdown.Item>
-                    </DropdownButton>
+                    <Box sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Fecha</InputLabel>
+                            <Select
+                                sx={{ height: 50 }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={orderBy.date}
+                                label="Fecha"
+                                name='date'
+                                onChange={handleChange}
+                            >
+                                <MenuItem value='proximo'>Mas proximo</MenuItem>
+                                <MenuItem value='lejano'>Mas lejano</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                    <Box sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Hora</InputLabel>
+                            <Select
+                                sx={{ height: 50 }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={orderBy.hour}
+                                label="Hora"
+                                name='hour'
+                                onChange={handleChange}
+                            >
+                                <MenuItem value='proximo'>Mas proximo</MenuItem>
+                                <MenuItem value='lejano'>Mas lejano</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
                 </div>
             </div>
             <div className='containerTablePatients'>

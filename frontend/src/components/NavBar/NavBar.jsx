@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
+
 import Logo from './../../assets/logoazul.png'
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineDashboard } from "react-icons/md";
+import { closeSesion } from "../../Redux/Actions/Actions";
+import Cookies from 'js-cookie';
+
+
 const NavBar = () => {
+
     const [clicked, setClicked] = useState(false);
     const userAuth = useSelector(state => state.userAuth)
-    console.log(userAuth);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const handleClick = () => {
         setClicked(!clicked);
     }
 
     const handleLogout = () => {
         dispatch(closeSesion())
+        Cookies.remove('token');
+        navigate('/')
     }
 
     return (
@@ -22,7 +32,7 @@ const NavBar = () => {
         <><div className="navbar">
             <nav>
                 <a href="#">
-                    <img src={Logo} alt="" className='logo' />
+                    <img src='https://res.cloudinary.com/djdqwkavb/image/upload/v1702783588/fisioSport/logo_ezmwer.png' alt="" className='logo' />
                 </a>
                 <div className="itemsnavbar">
                     <ul id='navbar' className={clicked ? "#navbar active" : "#navbar"}>
@@ -35,11 +45,15 @@ const NavBar = () => {
                         <li className="itemnavbar">
                             <NavLink to="/contacto"><i class="fa-solid fa-phone"></i> Contacto</NavLink>
                         </li>
+
                      
                        
                             {
                                !userAuth.authenticated && <li className="itemnavbar" id="iniciarsesion"><NavLink to="/login" activeClassName="active"><i class="fa-solid fa-user"></i> Iniciar Sesión</NavLink></li>              
+
                             }
+                        </li>
+                        <div>
                             {   
                                 userAuth.authenticated && !userAuth.isAdmin && <li className="itemnavbar"><i class="fa-solid fa-user"></i><NavLink to="/info" activeClassName="active">Información Personal</NavLink></li>
                             }

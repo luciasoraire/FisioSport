@@ -26,17 +26,17 @@ const medicalHistoryByPatientId = async (patientId) => {
     return medicalHistories
 }
 
-const createMedicalHistory = async ({ diagnostic, notes, background, id_patient, emergencyContact, medicationAllergies, currentMedications, previusInjuries, currentSymptoms  }) => {
+const createMedicalHistory = async ({ diagnostic, notes, id_patient, socialWelfare, medicationAllergies, currentMedications, previusInjuries, currentSymptoms  }) => {
     const medicalHistory = await MedicalHistory.findByPk(id_patient)
-    if(!medicalHistory.id_medicalhistory)
+    console.log(medicalHistory);
+    if(medicalHistory === null)
     {
         console.log('entre a crear');
         const medicalHistoryCreated = await MedicalHistory.create({
             diagnostic,
             notes,
-            background,
             id_patient,
-            emergencyContact, 
+            socialWelfare, 
             medicationAllergies, 
             currentMedications, 
             previusInjuries, 
@@ -50,9 +50,8 @@ const createMedicalHistory = async ({ diagnostic, notes, background, id_patient,
         data = {
             diagnostic,
             notes,
-            background,
             id_patient,
-            emergencyContact, 
+            socialWelfare, 
             medicationAllergies, 
             currentMedications, 
             previusInjuries, 

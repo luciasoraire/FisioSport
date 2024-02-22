@@ -10,6 +10,7 @@ const HomePage = () => {
        {/* <Link to="/turno" className="titulosobrevideo">
           <h1>Solicite su turno</h1>
   </Link>*/}
+
       </div>
 
     </div>

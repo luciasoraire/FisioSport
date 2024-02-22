@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
             diagnostic: {
                 type: DataTypes.STRING,
             },
-            emergencyContact: {
+            socialWelfare: {
                 type: DataTypes.STRING,
             },
             medicationAllergies: {

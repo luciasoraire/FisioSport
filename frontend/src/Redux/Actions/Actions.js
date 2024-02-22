@@ -4,21 +4,61 @@ export const GET_ALL_PATIENTS = 'GET_ALL_PATIENTS'
 export const GET_ALL_APPOINTMENTS = 'GET_ALL_APPOINTMENTS'
 export const GET_ALL_MEDICAL_HISTORIES = 'GET_ALL_MEDICAL_HISTORIES'
 export const FILTER_BY_DNI_OR_EMAIL = 'FILTER_BY_DNI_OR_EMAIL'
-export const ORDER_APPOINTMENTS_BY_DATE = 'ORDER_APPOINTMENTS_BY_DATE'
+export const SET_ORDER = 'SET_ORDER'
 export const SAVE_PATIENT_INFO = 'SAVE_PATIENT_INFO'
 export const GET_PATIENT_INFO = 'GET_PATIENT_INFO'
 export const UPDATE_PATIENT_INFO = 'UPDATE_PATIENT_INFO'
 export const DELETE_PATIENT_INFO = 'DELETE_PATIENT_INFO'
 export const DELETE_APPOINTMENT = 'DELETE_APPOINTMENT'
 export const UPDATE_APPOINTMENT = 'UPDATE_APPOINTMENT'
+export const USER_AUTH_TOKEN = 'USER_AUTH_TOKEN'
+export const CLOSE_SESION = 'CLOSE_SESION'
 
 export const userAuth = (user) => {
     return async (dispatch) => {
-        const response = await axios.post(`http://localhost:3001/fisiosport/user/login`, user)
-        return dispatch({
+        const response = await axios.post(`http://localhost:3001/fisiosport/user/login`, user, { withCredentials: true })
+        console.log(response.data);
+        dispatch({
             type: USER_AUTH,
             payload: response.data
         })
+
+        if(response.data.authenticated)
+        {
+            dispatch(getPatientInfo(user.email));
+            return true
+        }
+        
+    }
+}
+
+
+export const closeSesion = () => {
+    return async (dispatch) => {
+        return dispatch({
+            type: CLOSE_SESION,
+        })
+    }
+}
+
+export const userAuthToken = (token) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post('http://localhost:3001/fisiosport/user/login-token', {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            dispatch({
+                type: USER_AUTH,
+                payload: response.data
+            })
+            dispatch(getPatientInfo(response.data.email));
+        } catch (error) {
+            console.error('Error al enviar token:', error.message);
+        }
     }
 }
 
@@ -63,14 +103,6 @@ export const filterByDNIOrEmail = (data) => {
     }
 }
 
-export const orderByDate = (order) => {
-    return async (dispatch) => {
-        return dispatch({
-            type: ORDER_APPOINTMENTS_BY_DATE,
-            payload: order
-        })
-    }
-}
 
 export const savePatientInfo = (data) => {
     return async (dispatch) => {
@@ -81,11 +113,20 @@ export const savePatientInfo = (data) => {
     }
 }
 
+export const setOrder = (orderBy) => {
+    return async (dispatch) => {
+        return dispatch({
+            type: SET_ORDER,
+            payload: orderBy
+        })
+    }
+}
+
 
 export const getPatientInfo = (userId) => {
     return async (dispatch) => {
         const response = await axios.get(`http://localhost:3001/fisiosport/patient/info/${userId}`)
-        console.log(response.data);
+       
         return dispatch({
             type: GET_PATIENT_INFO,
             payload: response.data

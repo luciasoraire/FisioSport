@@ -9,6 +9,7 @@ import EditMedicalHistory from '../../modals/EditMedicalHistory/EditMedicalHisto
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
+import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2'
 
 const Patients = () => {
@@ -147,10 +148,8 @@ const Patients = () => {
                 <p>Pacientes</p>
             </div>
             <div className='containerFilterPatients'>
-                <p>Buscar por:</p>
-                <input type="text" name='dni' onChange={handleFilterChange} placeholder='DNI' />
-                <input type="text" name='email' onChange={handleFilterChange} placeholder='Email' />
-
+                <TextField id="outlined-basic" label="DNI" variant="outlined" name='dni' onChange={handleFilterChange}/>
+                <TextField id="outlined-basic" label="Email" variant="outlined" name='email' onChange={handleFilterChange}/>
             </div>
             <div className='containerTablePatients'>
 

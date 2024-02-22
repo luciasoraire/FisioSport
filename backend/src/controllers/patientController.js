@@ -14,6 +14,14 @@ const getPatient = async (userId) => {
 };
 
 const createData = async ({ name, lastname, phone, dni, email, age }) => {
+    const existingPatient = await Patient.count({where: {email: email}})
+
+    if (existingPatient !== 0)
+    {
+        console.log(existingPatient);
+        return {message: 'Solo puedes cargar tu informacion una vez'}
+    }
+
     const dataCreated = await Patient.create({
         name,
         lastname,

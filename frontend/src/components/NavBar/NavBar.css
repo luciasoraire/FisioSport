@@ -2,6 +2,7 @@
 nav {
     display: flex;
     align-items: center;
+
     justify-content:space-between;
     background-color: #FFFFFF;
     width: 90%;
@@ -81,6 +82,27 @@ nav {
     left: 20px;
   }
   
+  #navbar li p {
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    color: white;
+    margin: 0;
+  }
+  
+  #navbar li p i:hover {
+    color: #F08C30;
+  }
+  
+  #navbar li p:hover::after {
+    content: "";
+    width: 40%;
+    height: 2px;
+    background: #F08C30;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+  }
+
   #mobile {
     display: none;
   }
@@ -89,6 +111,7 @@ nav {
 color: #455DA7;;
     align-items: center;
   }
+
   
   @media screen and (max-width: 769px) {
     #navbar {

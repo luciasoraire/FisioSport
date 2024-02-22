@@ -41,8 +41,14 @@ const AppointmentPage = () => {
                 hour,
                 id_patient: patientInfo?.id_patient
             })
-
-            response.data && Swal.fire({
+            
+            response.data.message 
+            ? Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: response.data.message,
+              })
+            : response.data && Swal.fire({
                 title: "Turno reservado!",
                 text: "Te esperamos!",
                 icon: "success"
