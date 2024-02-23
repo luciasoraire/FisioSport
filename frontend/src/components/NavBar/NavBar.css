@@ -16,6 +16,8 @@ nav {
             border-radius: 20px;
 
   }
+
+
 .navbar{
   display: flex;
   align-items: center;
@@ -56,9 +58,7 @@ nav {
     padding: 0px 5px;
   }
 
-  .iniciarsesion{
-    background-color: #F08C30;
-  }
+
   #navbar .itemnavbar a {
     text-decoration: none;
     font-size: 1rem;
@@ -66,13 +66,9 @@ nav {
     color: #455DA7;
     transition: 0.3s ease-in-out;
   }
-  #navbar .itemnavbar a:hover,
-  #navbar .itemnavbar a.active {
-    color: #455DA7;
-  }
   
-  #navbar .itemnavbar a:hover::after,
-  #navbar .itemnavbar a.active::after {
+  #navbar .itemnavbar a:hover::after
+  {
     content: "";
     width: 40%;
     height: 2px;
@@ -80,8 +76,29 @@ nav {
     position: absolute;
     bottom: -4px;
     left: 20px;
-  }
-  
+}
+
+#navbar .itemnavbar a.active:not(#cerrarsesion)::after {
+  content: "";
+  width: 40%;
+  height: 2px;
+  background: #F08C30;
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
+}
+#navbar .itemnavbar a.active::after
+{
+  content: "";
+  width: 40%;
+  height: 2px;
+  background: #F08C30;
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
+}
+
+
   #navbar li p {
     cursor: pointer;
     transition: 0.3s ease-in-out;
