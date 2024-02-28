@@ -67,6 +67,7 @@ function App() {
         !location.pathname.startsWith('/forgot/') &&
         location.pathname !== '/register' && <Footer />
       }
+      
     </div>
   )
 }

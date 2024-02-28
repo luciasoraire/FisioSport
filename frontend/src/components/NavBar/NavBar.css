@@ -22,7 +22,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin-bottom: 20px;
 
 }
   #navbar {
@@ -137,7 +137,7 @@ color: #455DA7;;
       align-items:start;
       justify-content: center;
       position: fixed;
-      top: 72px;
+      top: 55px;
       right: -900px;
       width: 90%;
       height: auto;
