@@ -53,6 +53,7 @@ const Footer = () => {
         <i class="fab fa-facebook"></i>
         <i class="fab fa-instagram"></i>
         <i class="fab fa-google"></i>
+        
       </div>
       <div class="info">
         <div class="legal">

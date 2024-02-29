@@ -6,115 +6,106 @@ height: 100vh;
 object-fit:cover;
 position: absolute;
 top: 0;
-z-index: -1;
+z-index: 1;
 }
 
 .home{
     min-height: 46vh;
-
+    background-color: #161414;
 }
-.container1{
+
+.intro{
     display: flex;
     align-items: center;
-    padding: 30px 70px;
-
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+    color: white;
+    z-index: 2;
 }
 
-
-.fotochristian{
-    width: 600px;
-    border-radius: 30px;
+.fisiosport{
+    font-size: 8em;
+    font-weight: 900;
+    font-family: "Oswald", sans-serif;
 }
 
-.descripcionchristian{
-    padding: 0px 50px 0px 100px;
-    text-align: justify;
-    line-height: 1.5;
-    font-size: 16px;
+.kinesiologiayfisioterapia{
+    font-size: 3em;
 }
 
-.link{
-    color: black;
-   
-}
-
-.titulosobremi{
-    font-size: 30px;
-    color: #465BA6;
-    text-align: center;
-}
-
-.holaatodos{
-    color:#F08C30;
-    font-size: 18px;
-}
-
-.primercomentario{
-    width: 90%;
-    border: 1.5px solid #000000;
-    border-radius: 30px;
-    margin-top: 20px;
-    overflow: hidden;
-}
-
-.primercomentario:hover{
-    transform: scale(0.95);
-}
-
-
-.comentarios{
-    display:flex;
-    text-align: start;
-    margin-left:  100px;
-
-}
-
-hr{
-    margin-top: 20px;
-}
-
-.linkreseñas{
-    color: #000000;
-}
-
-.reseña{
-    width:30%;
-    padding: 20px;
-    border: 1.5px solid #000000;
-    border-radius: 30px;
-    margin-top: 20px;
-    background-color:   #FFFFFF;
-    color: #000000;
-}
-.reseña:hover{
-    transform: scale(0.95);
+.kinesiologo{
+    font-size: 2em;
+    text-transform:capitalize;
+    color: #ffffff;
+    font-family: "Playfair", serif;
     
 }
-.nombrereseña{
-    font-size: 18px;
-}
 
-.reseñas{
-    display: flex;
-    gap: 20px;
-    font-size: 16px;
-}
+
+
 .titulovideo{
     display: flex;
     align-items: center;
     justify-content: center;
 
 }
-.titulosobrevideo{
-    position: absolute;
-    color: white;
-    background-color: #465ba6b9;
-    padding: 30px;
-    border-radius: 60px;
-    border: 1px solid white;
-    text-decoration: none;
-}
 
-.titulosobrevideo:hover{
-    transform: scale(0.95);
+.button {
+    position: relative;
+    overflow: hidden;
+    height: 3.5rem;
+    padding: 0 2rem;
+    border-radius: 1.5rem;
+    background: rgba(240, 140, 48, 1);
+    background-size: 400%;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+  }
+  
+  .button:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .button-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    width: 100%;
+    height: inherit;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      rgba(70, 92, 167, 1) 10.8%,
+      rgba(240, 140, 48, 1) 94.3%
+    );
+    transition: all 0.475s;
+  }
+  
+@media screen and (max-width: 433px){
+.kinesiologo {
+    margin-top:  -4px;
+    font-size: 1.2em;
 }
+.kinesiologiayfisioterapia{
+    font-size: 1.5em;
+}
+.fisiosport{
+    font-size: 3.2em;
+}
+.intro{
+    width: 80%;
+}
+.button{
+    font-size: 1em;
+}}
