@@ -82,10 +82,10 @@ const EditAppointment = (props) => {
                     text: "Los cambios no se guardaron.",
                     icon: "error"
                 });
-                
+
             }
         })
-        
+
     }
 
     // CANCELAR LOS CAMBIOS QUE SE YA SE HABIAN SELECCIONADO

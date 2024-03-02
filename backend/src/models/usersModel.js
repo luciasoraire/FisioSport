@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize')
 
+
+// USUARIOS (ADMIN)
 module.exports = (sequelize) => {
     sequelize.define(
         'User',

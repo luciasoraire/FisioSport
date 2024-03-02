@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { useParams, useNavigate  } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import Swal from 'sweetalert2'
 
 
@@ -13,31 +13,29 @@ const ForgotPassPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const verifyToken = async() => {
+        const verifyToken = async () => {
             const response = await axios.get(`http://localhost:3001/fisiosport/user/reset-password/${token}`)
 
             setValidToken(response.data.message === 'Token valido' ? true : false)
         }
         verifyToken()
-    }, [token])  
+    }, [token])
 
     const handlePasswordReset = async () => {
-        const response = await axios.post(`http://localhost:3001/fisiosport/user/reset-password/${token}`, {password: newPassword})
-        if(response.data.message === 'Tu contraseña se ha cambiado con exito')
-        {
+        const response = await axios.post(`http://localhost:3001/fisiosport/user/reset-password/${token}`, { password: newPassword })
+        if (response.data.message === 'Tu contraseña se ha cambiado con exito') {
             Swal.fire({
                 title: "Contraseña Cambiada",
                 text: "Tu contraseña se ha cambiado con éxito. Ahora puedes iniciar sesión con tu nueva contraseña.",
                 icon: "success"
-              });
+            });
         }
-        else
-        {
+        else {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: 'La sesión para restablecer la contraseña ha caducado. Vuelve a solicitar un enlace de recuperación.'
-              })
+            })
         }
     };
 
@@ -53,9 +51,9 @@ const ForgotPassPage = () => {
                             type="password"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
-                        /> 
+                        />
                         <button onClick={handlePasswordReset}>Restablecer Contraseña</button>
-                        
+
                     </div>
                     :
                     <div>

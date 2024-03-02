@@ -1,5 +1,11 @@
-const { MedicalHistory, Patient } = require('../../db')
+const {
+    MedicalHistory,
+    Patient
+} = require('../../db')
 
+// =========== CONTROLLERS HISTORIAL MEDICO ============
+
+// Traer todos los historial medicos (x)
 const allMedicalHistories = async () => {
     const medicalHistories = await MedicalHistory.findAll(
         {
@@ -13,10 +19,11 @@ const allMedicalHistories = async () => {
     return medicalHistories
 }
 
+// Traer historial medico
 const medicalHistoryByPatientId = async (patientId) => {
     const medicalHistories = await MedicalHistory.findAll(
         {
-            where: {id_patient: patientId},
+            where: { id_patient: patientId },
             include: [{
                 model: Patient,
                 as: 'Patient'
@@ -26,41 +33,39 @@ const medicalHistoryByPatientId = async (patientId) => {
     return medicalHistories
 }
 
-const createMedicalHistory = async ({ diagnostic, notes, id_patient, socialWelfare, medicationAllergies, currentMedications, previusInjuries, currentSymptoms  }) => {
+// Crear historial medico
+const createMedicalHistory = async ({ diagnostic, notes, id_patient, socialWelfare, medicationAllergies, currentMedications, previusInjuries, currentSymptoms }) => {
     const medicalHistory = await MedicalHistory.findByPk(id_patient)
-    console.log(medicalHistory);
-    if(medicalHistory === null)
-    {
-        console.log('entre a crear');
+
+    if (medicalHistory === null) {
         const medicalHistoryCreated = await MedicalHistory.create({
             diagnostic,
             notes,
             id_patient,
-            socialWelfare, 
-            medicationAllergies, 
-            currentMedications, 
-            previusInjuries, 
-            currentSymptoms 
+            socialWelfare,
+            medicationAllergies,
+            currentMedications,
+            previusInjuries,
+            currentSymptoms
         })
         return medicalHistoryCreated
     }
-    else
-    {
-        console.log('entre a actualizar');
+    else {
         data = {
             diagnostic,
             notes,
             id_patient,
-            socialWelfare, 
-            medicationAllergies, 
-            currentMedications, 
-            previusInjuries, 
-            currentSymptoms 
+            socialWelfare,
+            medicationAllergies,
+            currentMedications,
+            previusInjuries,
+            currentSymptoms
         }
         updateHistory(data, medicalHistory.id_medicalhistory)
     }
 }
 
+// Actualizar historial medico
 const updateHistory = async (data, historyId) => {
     const [rowsUpdated, [updatedMedicalHistory]] = await MedicalHistory.update(data, { where: { id_medicalhistory: historyId }, returning: true })
     if (rowsUpdated === 1 && updatedMedicalHistory) {
@@ -70,6 +75,7 @@ const updateHistory = async (data, historyId) => {
     }
 }
 
+// Eliminar historial medico
 const deleteHistory = async (historyId) => {
     const dataDeleted = await MedicalHistory.destroy({ where: { id_medicalhistory: historyId }, returning: true })
     return dataDeleted

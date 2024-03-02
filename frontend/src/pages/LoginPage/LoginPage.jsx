@@ -23,18 +23,16 @@ const LoginPage = () => {
     password: Yup.string().required('La contraseña es obligatoria')
   });
 
-  const onSubmit = async(values, { setSubmitting, setFieldError }) => {
+  const onSubmit = async (values, { setSubmitting, setFieldError }) => {
     // Lógica de envío del formulario
     try {
       const result = await dispatch(userAuth(values));
-      
-      if(result)
-      {
+
+      if (result) {
         navigate('/');
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        console.log(initialValues);
         setFieldError('password', 'Contraseña incorrecta');
         setShowRecoveryLink(true);
         setEmailForRecovery(values.email)
@@ -47,8 +45,8 @@ const LoginPage = () => {
   };
 
   const redirectForgotPassPage = async () => {
-    const response = await axios.post('http://localhost:3001/fisiosport/user/forgot-password', {email: emailForRecovery})
-    
+    const response = await axios.post('http://localhost:3001/fisiosport/user/forgot-password', { email: emailForRecovery })
+
     navigate(`/forgot/${response.data.token}`)
   }
 

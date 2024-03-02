@@ -21,7 +21,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case USER_AUTH: {
-            console.log(action.payload);
             return {
                 ...state,
                 userAuth: action.payload
@@ -84,16 +83,13 @@ const reducer = (state = initialState, action) => {
         }
         case UPDATE_PATIENT_INFO: {
             const { id_patient } = action.payload;
-            if (state.patientInfo.id_patient) {
-                return { ...state, patientInfo: action.payload }
-            }
-            else {
-                return {
-                    ...state,
-                    patients: state.patients.map(patient =>
-                        patient.id_patient === id_patient ? action.payload : patient
-                    )
-                }
+
+            return {
+                ...state,
+                patients: state.patients.map(patient =>
+                    patient.id_patient === id_patient ? action.payload : patient
+                )
+
             }
         }
         case DELETE_PATIENT_INFO: {
@@ -104,6 +100,7 @@ const reducer = (state = initialState, action) => {
         }
         case DELETE_APPOINTMENT: {
             return {
+                ...state,
                 appointments: state.appointments.filter(appointment => appointment.id_appointment !== action.payload)
             }
         }
@@ -137,7 +134,6 @@ const reducer = (state = initialState, action) => {
 
         case SET_ORDER: {
             let appointmentsFiltered = [...state.appointments]
-            console.log(action.payload);
             if (action.payload.status !== '') {
                 if (action.payload.status === 'activo') appointmentsFiltered = [...state.filters.appointmentsToFilter].filter(appointment => appointment.active === true)
                 else if (action.payload.status === 'inactivo') appointmentsFiltered = [...state.filters.appointmentsToFilter].filter(appointment => appointment.active === false)
@@ -153,7 +149,6 @@ const reducer = (state = initialState, action) => {
                 appointmentsFiltered = [...appointmentsFiltered].sort((a, b) => {
                     const dateA = formatToYYYYMMDD(a.date);
                     const dateB = formatToYYYYMMDD(b.date);
-                    console.log(dateA);
                     if (action.payload.date === 'proximo') {
 
                         return dateA - dateB;
@@ -176,7 +171,7 @@ const reducer = (state = initialState, action) => {
                     } else if (action.payload.hour === 'lejano') {
                         return timeB.localeCompare(timeA);
                     }
-                    
+
                     return 0;
                 });
             }

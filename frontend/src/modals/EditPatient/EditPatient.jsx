@@ -92,7 +92,7 @@ const EditPatient = (props) => {
                     </div>
                     <div className='inputsAndLabesModal'>
                         <label htmlFor="email">Email:</label>
-                        <input type="text" id="email" name='email' defaultValue={props?.patient?.email} readOnly onChange={handleChange} />
+                        <input type="text" id="email" name='email' defaultValue={props?.patient?.email} onChange={handleChange} />
                     </div>
                     <div className='inputsAndLabesModal'>
                         <label htmlFor="telefono">Teléfono:</label>

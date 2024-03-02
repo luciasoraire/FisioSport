@@ -16,7 +16,7 @@ const AdminPage = () => {
         dispatch(getAppointments())
         dispatch(getMedicalHistory())
     }, [])
-    
+
     return (
         <div className='containerAdmin'>
             <SideBar setCurrentSelection={setCurrentSelection}></SideBar>

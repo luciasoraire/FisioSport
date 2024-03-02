@@ -62,7 +62,6 @@ const MedicalHistory = () => {
     } = useTable({ columns, data, initialState: { pageIndex: 0, pageSize: 20 } }, usePagination);
 
     const handleFilterChange = (e) => {
-        console.log(e.target.name);
         dispatch(filterByDNIOrEmail({ stateName: 'medicalHistory', stateNameToFilter: 'medicalHistoryToFilter', propertyName: e.target.name, value: e.target.value }))
     }
 
@@ -112,7 +111,7 @@ const MedicalHistory = () => {
 
                     <div className='containerButtonsNavigation'>
                         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className='buttonsArrowsPage'>
-                        <MdKeyboardDoubleArrowLeft className='arrowIcon' />
+                            <MdKeyboardDoubleArrowLeft className='arrowIcon' />
                         </button>
                         <button onClick={() => previousPage()} disabled={!canPreviousPage} className='buttonNavigationPage'>
                             Anterior

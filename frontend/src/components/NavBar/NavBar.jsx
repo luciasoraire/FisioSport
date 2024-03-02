@@ -26,8 +26,8 @@ const NavBar = () => {
     }
 
     return (
-    
-        
+
+
         <><div className="navbar">
             <nav>
                 <a href="#">
@@ -36,33 +36,33 @@ const NavBar = () => {
                 <div className="itemsnavbar">
                     <ul id='navbar' className={clicked ? "#navbar active" : "#navbar"}>
                         <li className="itemnavbar">
-                        <NavLink to="/#"><i class="fa-solid fa-house "></i><NavLink to="/"> Inicio</NavLink></NavLink>
+                            <NavLink to="/#"><i class="fa-solid fa-house "></i><NavLink to="/"> Inicio</NavLink></NavLink>
                         </li>
-                        { userAuth.authenticated && <li className="itemnavbar">
+                        {userAuth.authenticated && <li className="itemnavbar">
                             <i class="fa-solid fa-calendar"></i> <NavLink to="/turno"> Turnos</NavLink>
                         </li>}
                         <li className="itemnavbar">
                             <NavLink to="/contacto"><i class="fa-solid fa-phone"></i> Contacto</NavLink>
                         </li>
-                     
-                       
-                      
-                            {   
-                                userAuth.authenticated && !userAuth.isAdmin && <li className="itemnavbar"><i class="fa-solid fa-circle-info"></i><NavLink to="/info" activeClassName="active">Información Personal</NavLink></li>
-                            }
-                            {   
-                                userAuth.isAdmin && <li className="itemnavbar">
-                                    <i class="fa-solid fa-table"></i> <NavLink to="/admin" activeClassName="active">Dashboard</NavLink>
+
+
+
+                        {
+                            userAuth.authenticated && !userAuth.isAdmin && <li className="itemnavbar"><i class="fa-solid fa-circle-info"></i><NavLink to="/info" activeClassName="active">Información Personal</NavLink></li>
+                        }
+                        {
+                            userAuth.isAdmin && <li className="itemnavbar">
+                                <i class="fa-solid fa-table"></i> <NavLink to="/admin" activeClassName="active">Dashboard</NavLink>
                             </li>}
-                            {
-                               !userAuth.authenticated 
-                               ? <li className="itemnavbar"><NavLink to="/login" activeClassName="active"><i class="fa-solid fa-user"></i> Iniciar Sesión</NavLink></li>              
+                        {
+                            !userAuth.authenticated
+                                ? <li className="itemnavbar"><NavLink to="/login" activeClassName="active"><i class="fa-solid fa-user"></i> Iniciar Sesión</NavLink></li>
                                 : <li className="itemnavbar" id="cerrarsesion" onClick={handleLogout}>
-                                <NavLink to="/login" ><i class="fa-solid fa-user"></i> Cerrar Sesión</NavLink>
-                              </li>       
-                            }
-                            
-                       
+                                    <NavLink to="/login" ><i class="fa-solid fa-user"></i> Cerrar Sesión</NavLink>
+                                </li>
+                        }
+
+
 
                     </ul>
                 </div>
@@ -71,7 +71,7 @@ const NavBar = () => {
 
                 </div>
             </nav>
-            </div>
+        </div>
         </>
     );
 };

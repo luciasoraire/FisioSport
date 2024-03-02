@@ -1,6 +1,12 @@
-const { allAppointments, getDisponibilityHour, createNewAppointment, updateAppointmentCtrl, deleteAppointmentCtrl } = require("../controllers/appointmentController")
+const { 
+    allAppointments, 
+    getDisponibilityHour, 
+    createNewAppointment, 
+    updateAppointmentCtrl, 
+    deleteAppointmentCtrl 
+} = require("../controllers/appointmentController")
 
-
+// Traer todos los turnos
 const getAllAppointments = async (req, res) => {
     try {
         const appointments = await allAppointments()
@@ -10,6 +16,7 @@ const getAllAppointments = async (req, res) => {
     }
 }
 
+// Verificar disponibilidad del turno seleccionado
 const getDisponibility = async (req, res) => {
     try {
         const { selectedDate } = req.body
@@ -20,16 +27,19 @@ const getDisponibility = async (req, res) => {
     }
 }
 
+// Crear turno
 const createAppointment = async (req, res) => {
     try {
-        const { date, hour, id_patient } = req.body
+        const { date, hour, dni, name, surname, email, phone } = req.body
       
-        const newAppointment = await createNewAppointment(date, hour, id_patient)
+        const newAppointment = await createNewAppointment(date, hour, dni, name, surname, email, phone)
             res.status(200).json(newAppointment)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
+
+// Actualizar turno
 const updateAppointment = async (req, res) => {
     try {
         const { appointmentId } = req.params
@@ -41,6 +51,8 @@ const updateAppointment = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
+
+// Eliminar turno
 const deleteAppointment = async (req, res) => {
     try {
         const { appointmentId } = req.params

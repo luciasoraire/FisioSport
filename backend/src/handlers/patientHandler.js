@@ -1,5 +1,12 @@
-const { allPatients, createData, updateData, deleteData, getPatient } = require("../controllers/patientController")
+const {
+    allPatients,
+    createData,
+    updateData,
+    deleteData,
+    getPatient
+} = require("../controllers/patientController")
 
+// Traer todos los pacientes
 const getAllPatients = async (req, res) => {
     try {
         const patients = await allPatients()
@@ -9,10 +16,11 @@ const getAllPatients = async (req, res) => {
     }
 }
 
+// Traer paciente especifico 
 const getPatientById = async (req, res) => {
     try {
         const { userId } = req.params
-        console.log(userId);
+
         const patient = await getPatient(userId)
         res.status(200).json(patient)
     } catch (error) {
@@ -20,16 +28,18 @@ const getPatientById = async (req, res) => {
     }
 }
 
+// crear paciente
 const createDataPatient = async (req, res) => {
     try {
         const { name, lastname, phone, dni, email, age, gender } = req.body
-        console.log(name, email);
         const dataCreated = await createData({ name, lastname, phone, dni, email, age, gender })
         res.status(200).json(dataCreated)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
+
+// actualizar informacion paciente
 const updateDataPatient = async (req, res) => {
     try {
         const { patientId } = req.params
@@ -40,6 +50,8 @@ const updateDataPatient = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
+
+// eliminar paciente
 const deleteDataPatient = async (req, res) => {
     try {
         const { patientId } = req.params

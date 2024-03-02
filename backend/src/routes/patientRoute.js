@@ -1,13 +1,18 @@
 const { Router } = require('express')
-const { getAllPatients, createDataPatient, updateDataPatient, deleteDataPatient, getPatientById } = require('../handlers/patientHandler')
+const {
+    getAllPatients,
+    createDataPatient,
+    updateDataPatient,
+    deleteDataPatient,
+    getPatientById
+} = require('../handlers/patientHandler')
 
 const patientRouter = Router()
 
-
-patientRouter.get('/', getAllPatients)
-patientRouter.get('/info/:userId', getPatientById)
-patientRouter.post('/', createDataPatient)
-patientRouter.put('/:patientId', updateDataPatient)
-patientRouter.delete('/:patientId', deleteDataPatient)
+patientRouter.get('/', getAllPatients)  // Traer todos los pacientes
+patientRouter.get('/info/:userId', getPatientById) // Traer paciente especifico 
+patientRouter.post('/', createDataPatient) // Crear paciente
+patientRouter.put('/:patientId', updateDataPatient) // Actualizar info paciente
+patientRouter.delete('/:patientId', deleteDataPatient) // eliminar paciente
 
 module.exports = patientRouter

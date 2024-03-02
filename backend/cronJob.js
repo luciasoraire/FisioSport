@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const { Op } = require('sequelize');
 const { Appointment } = require('./db');
 
-// actualizar los turnos
+// actualizar estados de los turnos automaticamente
 cron.schedule('* * * * *', async () => {
     try {
 

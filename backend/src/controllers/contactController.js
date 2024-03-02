@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer')
 
+// Enviar mensaje a Email (kinesiologo)
 const sendMessageController = async (user) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',

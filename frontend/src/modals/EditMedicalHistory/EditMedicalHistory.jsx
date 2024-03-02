@@ -24,7 +24,6 @@ const EditMedicalHistory = (props) => {
                 try {
                     const response = await axios.get(`http://localhost:3001/fisiosport/history/${props?.patient?.id_patient}`);
                     setPatient(response.data[0]);
-                    console.log(response.data);
                 } catch (error) {
                     console.error('Error fetching medical history:', error);
                 }
@@ -45,7 +44,7 @@ const EditMedicalHistory = (props) => {
         e.target.style.height = Math.max(e.target.scrollHeight, 40) + 'px';
     };
 
-    const saveChanges = async() => {
+    const saveChanges = async () => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: "btn btn-success",
@@ -68,7 +67,7 @@ const EditMedicalHistory = (props) => {
                     text: "Los cambios fueron guardados.",
                     icon: "success"
                 });
-                axios.post('http://localhost:3001/fisiosport/history', {...patient, id_patient: props.patient.id_patient})
+                axios.post('http://localhost:3001/fisiosport/history', { ...patient, id_patient: props.patient.id_patient })
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel

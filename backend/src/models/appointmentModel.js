@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 
+// TURNOS
 module.exports = (sequelize) => {
     const AppointmentModel = sequelize.define(
         'Appointment',
@@ -15,14 +16,27 @@ module.exports = (sequelize) => {
             hour: {
                 type: DataTypes.STRING
             },
+            dni: {
+                type: DataTypes.STRING
+            },
+            name: {
+                type: DataTypes.STRING
+            },
+            surname: {
+                type: DataTypes.STRING
+            },
+            email: {
+                type: DataTypes.STRING
+            },
+            phone: {
+                type: DataTypes.STRING
+            },
             active: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: true
             }
         }
     )
-
-    AppointmentModel.belongsTo(sequelize.models.Patient, {foreignKey: 'id_patient'}); // Establece la relación de clave foránea
 
     return AppointmentModel;
 }

@@ -12,15 +12,15 @@ const HomePage = () => {
           <h2 className="kinesiologiayfisioterapia">Kinesiología & Fisioterapia</h2>
           <i><h3 className="kinesiologo">Klgo. Christian Núñez Coso</h3></i>
           <button class="button">
-  <span class="button-content">Solicitar turno</span>
-</button>
+            <span class="button-content">Solicitar turno</span>
+          </button>
         </div>
-
-</div>
 
       </div>
 
-  
+    </div>
+
+
   );
 };
 

@@ -10,7 +10,7 @@ const ContactPage = () => {
         email: '',
         asunto: ''
     })
-    
+
 
     const onChangeHandle = (event) => {
         setMessage({
@@ -21,7 +21,6 @@ const ContactPage = () => {
 
     const sendMessage = async () => {
         const response = await axios.post(`http://localhost:3001/fisiosport/contact`, { data: message })
-        console.log(response.data);
         setMessage({
             name: '',
             lastname: '',

@@ -1,5 +1,11 @@
 const { Router } = require('express')
-const { getAllAppointments, getDisponibility, createAppointment, updateAppointment, deleteAppointment } = require('../handlers/appointmentHandler')
+const { 
+    getAllAppointments, 
+    getDisponibility, 
+    createAppointment, 
+    updateAppointment, 
+    deleteAppointment 
+} = require('../handlers/appointmentHandler')
 
 const appointmentRouter = Router()
 

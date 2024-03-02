@@ -1,9 +1,10 @@
 const { sendMessageController } = require('../controllers/contactController')
 
+// Enviar mensaje a Email
 const sendMessageHandler = async (req, res) => {
     try {
         const { data } = req.body
-        console.log(data);
+
         const messageSend = await sendMessageController(data)
         res.status(200).json(messageSend)
     } catch (error) {

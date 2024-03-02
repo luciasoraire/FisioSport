@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTable, usePagination } from 'react-table';
 import { useDispatch, useSelector } from "react-redux"
-import { deletePatientInfo, filterByDNIOrEmail } from '../../Redux/Actions/Actions';
+import { filterByDNIOrEmail } from '../../Redux/Actions/Actions';
 import './Patients.css'
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
 import EditPatient from '../../modals/EditPatient/EditPatient';
@@ -11,6 +11,8 @@ import { IoIosSettings } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2'
+import NewPatient from '../../modals/NewPatient/NewPatient';
+import axios from 'axios'
 
 const Patients = () => {
 
@@ -19,6 +21,7 @@ const Patients = () => {
     const patients = useSelector(state => state.patients)
     const [modalEditPatientShow, setModalEditPatientShow] = useState(false);
     const [modalMedicalHistoryShow, setMedicalHistoryShow] = useState(false);
+    const [modalNewPatient, setModalNewPatient] = useState(false);
     const [modalDeleteShow, setDeleteShow] = useState(false);
 
     const [selectedPatient, setSelectedPatient] = useState(null);
@@ -30,7 +33,6 @@ const Patients = () => {
         if (column === 'editPatient') setModalEditPatientShow(true);
         if (column === 'deletePatient') {
             {
-                console.log(patient);
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
                         confirmButton: "btn btn-success",
@@ -53,7 +55,7 @@ const Patients = () => {
                             text: "El paciente fue eliminado.",
                             icon: "success"
                         });
-                        dispatch(deletePatientInfo(patient.id_patient))
+                        axios.delete(`http://localhost:3001/fisiosport/patient/${patient.id_patient}`)
                     } else if (
                         /* Read more about handling dismissals below */
                         result.dismiss === Swal.DismissReason.cancel
@@ -138,7 +140,6 @@ const Patients = () => {
     } = useTable({ columns, data, initialState: { pageIndex: 0, pageSize: 20 } }, usePagination);
 
     const handleFilterChange = (e) => {
-        console.log(e.target.name);
         dispatch(filterByDNIOrEmail({ stateName: 'patients', stateNameToFilter: 'patientsToFilter', propertyName: e.target.name, value: e.target.value }))
     }
 
@@ -148,8 +149,9 @@ const Patients = () => {
                 <p>Pacientes</p>
             </div>
             <div className='containerFilterPatients'>
-                <TextField id="outlined-basic" label="DNI" variant="outlined" name='dni' onChange={handleFilterChange}/>
-                <TextField id="outlined-basic" label="Email" variant="outlined" name='email' onChange={handleFilterChange}/>
+                <TextField id="outlined-basic" label="DNI" variant="outlined" name='dni' onChange={handleFilterChange} />
+                <TextField id="outlined-basic" label="Email" variant="outlined" name='email' onChange={handleFilterChange} />
+                <button onClick={() => setModalNewPatient(true)}>Nuevo Paciente</button>
             </div>
             <div className='containerTablePatients'>
 
@@ -211,6 +213,11 @@ const Patients = () => {
                 show={modalMedicalHistoryShow}
                 onHide={() => setMedicalHistoryShow(false)}
                 patient={selectedPatient}
+            />
+            <NewPatient
+                show={modalNewPatient}
+                onHide={() => setModalNewPatient(false)}
+
             />
 
         </div>

@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 
+// HISTORIAL MEDICO
 module.exports = (sequelize) => {
     const MedicalHistoryModel = sequelize.define(
         'MedicalHistory',

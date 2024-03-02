@@ -1,20 +1,15 @@
-const { Appointment, Patient, sequelize  } = require('../../db')
+const { Appointment } = require('../../db')
 const { Sequelize } = require('sequelize');
 const moment = require('moment');
-const { Op } = require('sequelize');
-const { startOfDay, endOfDay } = require('date-fns');
 
+// ================ CONTROLLERS TURNOS ==============
+
+// Traer todos los turnos
 const allAppointments = async () => {
 
     const appointments = await Appointment.findAll(
         {
             order: [['id_appointment', 'ASC']],
-            include: [
-                {
-                    model: Patient,
-                    as: 'Patient'
-                }
-            ]
         }
     )
     const appointmentsClean = appointments.map(appointment => {
@@ -43,6 +38,7 @@ const allAppointments = async () => {
     return appointmentsClean
 }
 
+// Verificar disponibilidad del turno seleccionado
 const getDisponibilityHour = async (selectedDate) => {
     const turnosPorFecha = await Appointment.findAll({
         where: {
@@ -59,44 +55,9 @@ const getDisponibilityHour = async (selectedDate) => {
     return turnosPorFecha
 }
 
-const createNewAppointment = async (date, hour, id_patient) => {
-    
-    // límite de 1 turno por día
-    const currentDate = new Date();
-   
-    const existingAppointment = await Appointment.findOne({
-        where: {
-            id_patient,
-            createdAt: {
-                [Op.gte]: startOfDay(currentDate),
-                [Op.lt]: startOfDay(new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)), // Fin del día actual
-            },
-        },
-    });
+// Crear nuevo turno
+const createNewAppointment = async (date, hour, dni, name, surname, email, phone) => {
 
-    if (existingAppointment) {
-        return { message: 'Solo se permite programar un turno por día' };
-    }
-
-    // Limite de 4 turnos por mes
-    const currentMonth = new Date().getMonth() + 1;
-    const existingAppointmentsCountThisMonth = await Appointment.count({
-        where: {
-            id_patient,
-            createdAt: {
-                [Op.and]: [
-                    sequelize.literal(`EXTRACT(MONTH FROM "createdAt") = ${currentMonth}`),
-                    sequelize.literal(`EXTRACT(YEAR FROM "createdAt") = ${new Date().getFullYear()}`),
-                ],
-            },
-        },
-    });
-
-    if (existingAppointmentsCountThisMonth >= 4) {
-        return { message: 'No se pueden agregar más de 4 citas por mes' };
-    }
-
-    // Limite de 4 turnos para una misma fecha y hora
     const existingAppointmentsCount = await Appointment.count({
         where: {
             date,
@@ -111,49 +72,49 @@ const createNewAppointment = async (date, hour, id_patient) => {
     const appointmentsCreated = await Appointment.create({
         date,
         hour,
-        id_patient,
-        
+        name,
+        dni,
+        surname,
+        email,
+        phone
     })
     return appointmentsCreated
 }
 
+// Modificar el turno
 const updateAppointmentCtrl = async (data, appointmentId) => {
+
     if (data.hour === '') delete data.hour
-    if(data.date === '') delete data.date
+    if (data.date === '') delete data.date
     const [rowsUpdated, [updatedAppointments]] = await Appointment.update(data, {
         where: { id_appointment: appointmentId },
         returning: true,
-        include: [
-            {
-                model: Patient,
-                as: 'Patient'
-            }
-        ]
     })
 
     if (rowsUpdated === 1 && updatedAppointments) {
         const formattedDate = moment(updatedAppointments.date).format('D/M/YYYY');
-
-        // Crear una nueva propiedad dateFormatted en el objeto que enviarás al frontend
-        const patientData = await Patient.findByPk(updatedAppointments.id_patient);
-       
-        // Incluir datos del paciente en el objeto que enviarás al frontend
+        const appointment = await Appointment.findOne({ where: { id_appointment: appointmentId } })
         const updatedAppointmentToSend = {
             id_appointment: updatedAppointments.id_appointment,
             date: formattedDate,
             hour: updatedAppointments.hour,
+            email: appointment.email,
+            name: appointment.name,
+            surname: appointment.surname,
+            phone: appointment.phone,
+            dni: appointment.dni,
+            active: appointment.active,
             createdAt: updatedAppointments.createdAt,
             updatedAt: updatedAppointments.updatedAt,
-            id_patient: updatedAppointments.id_patient,
-            Patient: patientData.toJSON(), // Convertir a objeto JSON
         };
-
+        
         return updatedAppointmentToSend;
     } else {
         return null;
     }
 }
 
+// Eliminar un turno
 const deleteAppointmentCtrl = async (appointmentId) => {
     const dataDeleted = await Appointment.destroy({ where: { id_appointment: appointmentId }, returning: true })
     return dataDeleted

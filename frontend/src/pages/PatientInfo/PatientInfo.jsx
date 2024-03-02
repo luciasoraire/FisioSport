@@ -46,16 +46,14 @@ const PatientInfo = () => {
             formData
         );
 
-        if(response.data.message)
-        {
+        if (response.data.message) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: response.data.message,
-              })
+            })
         }
-        else
-        {
+        else {
             Swal.fire({
                 title: "Informacion cargada!",
                 text: "Gracias!",
@@ -77,7 +75,7 @@ const PatientInfo = () => {
                     <ul>
                         <li>
                             <p>Para poder reservar turnos, es necesario completar todos los campos de información personal.
-                            Asegúrate de proporcionar información precisa y actualizada.</p>
+                                Asegúrate de proporcionar información precisa y actualizada.</p>
                         </li>
                         <li>
                             <p>La información personal que proporcionas será tratada de manera confidencial y se utilizará únicamente con el propósito de brindarte un servicio personalizado. Nos comprometemos a proteger tu privacidad y a cumplir con las regulaciones de seguridad de datos.</p>
@@ -147,42 +145,42 @@ const PatientInfo = () => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            
+
                             <div className='containerButtonSubmit'>
                                 <button type="submit">Guardar</button>
                             </div>
                         </form>
                     ) : (
                         <div className='containerInfoPatient'>
-                            
+
                             <p className='titleInfoPatient'>Informacion Personal</p>
-                                {
-                                    !edit ? (
-                                        <div className='patientInfoLoged'>
-                                            <p><b>Nombre: </b>{patientInfo?.name}</p>
-                                            <p><b>Apellido: </b>{patientInfo?.lastname}</p>
-                                            <p><b>Edad: </b>{patientInfo?.age}</p>
-                                            <p><b>Telefono: </b>{patientInfo?.phone}</p>
-                                            <p><b>DNI: </b>{patientInfo?.dni}</p>
-                                            <p><b>Email: </b>{patientInfo?.email}</p>
-                                        </div>
-                                    )
-                                        : (
-                                            <div className='labelsAndInputsLoged'>
-                                                <input type='text' name='name' value={formData?.name} onChange={handleChange} />
-                                                <input type='text' name='lastname' value={formData?.lastname} onChange={handleChange} />
-                                                <input type='text' name='age' value={formData?.age} onChange={handleChange} />
-                                                <input type='text' name='phone' value={formData?.phone} onChange={handleChange} />
-                                                <input type='text' name='dni' value={formData?.dni} onChange={handleChange} />
-                                                {/*<input type='text' name='email' value={formData.email} onChange={handleChange}/>*/}
-                                                <div className='containerButtonSubmit'>
+                            {
+                                !edit ? (
+                                    <div className='patientInfoLoged'>
+                                        <p><b>Nombre: </b>{patientInfo?.name}</p>
+                                        <p><b>Apellido: </b>{patientInfo?.lastname}</p>
+                                        <p><b>Edad: </b>{patientInfo?.age}</p>
+                                        <p><b>Telefono: </b>{patientInfo?.phone}</p>
+                                        <p><b>DNI: </b>{patientInfo?.dni}</p>
+                                        <p><b>Email: </b>{patientInfo?.email}</p>
+                                    </div>
+                                )
+                                    : (
+                                        <div className='labelsAndInputsLoged'>
+                                            <input type='text' name='name' value={formData?.name} onChange={handleChange} />
+                                            <input type='text' name='lastname' value={formData?.lastname} onChange={handleChange} />
+                                            <input type='text' name='age' value={formData?.age} onChange={handleChange} />
+                                            <input type='text' name='phone' value={formData?.phone} onChange={handleChange} />
+                                            <input type='text' name='dni' value={formData?.dni} onChange={handleChange} />
+                                            {/*<input type='text' name='email' value={formData.email} onChange={handleChange}/>*/}
+                                            <div className='containerButtonSubmit'>
 
                                                 <button onClick={updatePatient}>Guardar</button>
-                                                </div>
                                             </div>
-                                        )
-                                }
-                            
+                                        </div>
+                                    )
+                            }
+
                             <button className='buttonEditOrCancel' onClick={() => setEdit(!edit)}>{edit ? 'Cancelar' : 'Editar'}</button>
                         </div>
                     )}

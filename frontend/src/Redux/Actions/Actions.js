@@ -17,7 +17,6 @@ export const CLOSE_SESION = 'CLOSE_SESION'
 export const userAuth = (user) => {
     return async (dispatch) => {
         const response = await axios.post(`http://localhost:3001/fisiosport/user/login`, user, { withCredentials: true })
-        console.log(response.data);
         dispatch({
             type: USER_AUTH,
             payload: response.data
@@ -65,7 +64,6 @@ export const userAuthToken = (token) => {
 export const getPatients = () => {
     return async (dispatch) => {
         const response = await axios.get(`http://localhost:3001/fisiosport/patient/`)
-        console.log(response.data);
         return dispatch({
             type: GET_ALL_PATIENTS,
             payload: response.data
@@ -147,6 +145,7 @@ export const updatePatientInfo = (patientId, patient) => {
 export const updateAppointment = (appointmentId, appointment) => {
     return async (dispatch) => {
         const response = await axios.put(`http://localhost:3001/fisiosport/appointment/${appointmentId}`, { data: appointment })
+
         return dispatch({
             type: UPDATE_APPOINTMENT,
             payload: response.data
@@ -156,9 +155,7 @@ export const updateAppointment = (appointmentId, appointment) => {
 
 export const deletePatientInfo = (patientId) => {
     return async (dispatch) => {
-        console.log(patientId);
         const response = await axios.delete(`http://localhost:3001/fisiosport/patient/${patientId}`)
-        console.log(response.data);
         if (response.data !== 0) {
             return dispatch({
                 type: DELETE_PATIENT_INFO,
@@ -171,7 +168,6 @@ export const deletePatientInfo = (patientId) => {
 export const deleteAppointment = (appointmentId) => {
     return async (dispatch) => {
         const response = await axios.delete(`http://localhost:3001/fisiosport/appointment/${appointmentId}`)
-        console.log(appointmentId);
         if (response.data !== 0) {
             return dispatch({
                 type: DELETE_APPOINTMENT,

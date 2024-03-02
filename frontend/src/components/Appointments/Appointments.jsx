@@ -36,7 +36,6 @@ const Appointments = () => {
     };
 
     useEffect(() => {
-
         dispatch(setOrder(orderBy))
     }, [orderBy])
 
@@ -47,7 +46,6 @@ const Appointments = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
 
     const handleEditClick = (appointment, column) => {
-        console.log(appointment);
         setSelectedAppointment(appointment);
         if (column === 'editAppointment') setModalEditAppointmentShow(true);
         if (column === 'deleteAppointment') {
@@ -94,24 +92,20 @@ const Appointments = () => {
     const columns = React.useMemo(
         () => [
             {
-                Header: '#',
-                accessor: 'Patient.id_patient',
-            },
-            {
                 Header: 'DNI',
-                accessor: 'Patient.dni',
+                accessor: 'dni',
             },
             {
                 Header: 'Nombre',
-                accessor: 'Patient.name',
+                accessor: 'name',
             },
             {
                 Header: 'Apellido',
-                accessor: 'Patient.lastname',
+                accessor: 'surname',
             },
             {
                 Header: 'Email',
-                accessor: 'Patient.email',
+                accessor: 'email',
             },
             {
                 Header: 'Fecha',
@@ -164,7 +158,6 @@ const Appointments = () => {
     } = useTable({ columns, data }, usePagination);
 
     const handleFilterChange = (e) => {
-        console.log(e.target.name);
         dispatch(filterByDNIOrEmail({ stateName: 'appointments', stateNameToFilter: 'appointmentsToFilter', propertyName: e.target.name, value: e.target.value }))
     }
 

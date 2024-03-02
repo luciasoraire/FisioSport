@@ -4,6 +4,7 @@ import Calendar from 'react-calendar';
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
+import ReserveAppointment from '../../modals/ReserveAppointment/ReserveAppointment';
 
 const AppointmentPage = () => {
 
@@ -11,6 +12,7 @@ const AppointmentPage = () => {
     const [hour, setHour] = useState('')
     const [disponibility, setDisponibility] = useState([])
     const patientInfo = useSelector(state => state.patientInfo)
+    const [modalReserveAppointment, setModalReserveAppointment] = useState(false)
 
 
     // deshabilitar los dias que ya pasaron
@@ -36,30 +38,12 @@ const AppointmentPage = () => {
 
     const reserveAppointment = async () => {
         if (date !== null && hour !== '') {
-            const response = await axios.post('http://localhost:3001/fisiosport/appointment', {
-                date,
-                hour,
-                id_patient: patientInfo?.id_patient
-            })
-            
-            response.data.message 
-            ? Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: response.data.message,
-              })
-            : response.data && Swal.fire({
-                title: "Turno reservado!",
-                text: "Te esperamos!",
-                icon: "success"
-            });
+            setModalReserveAppointment(true)
         }
-        else
-        {   
-            if(!patientInfo.id_patient) Swal.fire("Tienes que ingresar tu informacion personal!");
-            else if(date === null && hour === '') Swal.fire("Tienes que seleccionar una fecha y una hora!");
-            else if(hour === '') Swal.fire("Tienes que seleccionar una hora!");
-            else Swal.fire("Tienes que seleccionar una fecha!")     
+        else {
+            if (date === null && hour === '') Swal.fire("Tienes que seleccionar una fecha y una hora!");
+            else if (hour === '') Swal.fire("Tienes que seleccionar una hora!");
+            else Swal.fire("Tienes que seleccionar una fecha!")
         }
     }
 
@@ -126,6 +110,11 @@ const AppointmentPage = () => {
                 <button onClick={reserveAppointment}>Confirmar turno</button>
                 <button onClick={cancelAppointment}>Cancelar turno</button>
             </div>
+            <ReserveAppointment
+                show={modalReserveAppointment}
+                onHide={() => setModalReserveAppointment(false)}
+                appointment={{ date, hour }}
+            />
         </div>
     )
 }

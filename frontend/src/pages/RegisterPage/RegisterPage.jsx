@@ -22,7 +22,6 @@ const RegisterPage = () => {
     try {
       // Realizar la solicitud de registro utilizando axios
       const response = await axios.post('http://localhost:3001/fisiosport/user/register', values);
-      console.log(response.data); // Puedes manejar la respuesta según tus necesidades
 
       // Redirigir al usuario a la página de inicio de sesión después del registro
       navigate('/login');

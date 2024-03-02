@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 
+// PACIENTES
 module.exports = (sequelize) => {
     const PatientModel = sequelize.define(
         'Patient',
@@ -14,6 +15,9 @@ module.exports = (sequelize) => {
             },
             lastname: {
                 type: DataTypes.STRING,
+            },
+            email: {
+                type: DataTypes.STRING
             },
             phone: {
                 type: DataTypes.STRING,
@@ -30,8 +34,5 @@ module.exports = (sequelize) => {
             }
         }
     )
-
-    PatientModel.belongsTo(sequelize.models.User, { foreignKey: 'email' }); // Establece la relación de clave foránea
-
     return PatientModel;
 }

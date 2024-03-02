@@ -41,11 +41,13 @@ function App() {
 
   return (
     <div className='app'>
-      {location.pathname !== '/admin' &&
+      {
+        location.pathname !== '/admin' &&
         location.pathname !== '/login' &&
         !location.pathname.startsWith('/forgot/') &&
         location.pathname !== '/register' &&
-        <NavBar />}
+        <NavBar />
+      }
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/contacto' element={<ContactPage />} />
@@ -55,19 +57,18 @@ function App() {
         <Route element={<ProtectedRoute canActivate={userAuth.isAdmin} />}>
           <Route path='/admin' element={<AdminPage />} />
         </Route>
-        <Route element={<ProtectedRoute canActivate={userAuth.authenticated} />}>
-          <Route path='/turno' element={<AppointmentPage />} />
-          <Route path='/info' element={<PatientInfo />} />
-        </Route>
+        <Route path='/turno' element={<AppointmentPage />} />
+        <Route path='/info' element={<PatientInfo />} />
         <Route path='/about' element={<AboutPage />} />
 
       </Routes>
-      {location.pathname !== '/admin' &&
+      {
+        location.pathname !== '/admin' &&
         location.pathname !== '/login' &&
         !location.pathname.startsWith('/forgot/') &&
         location.pathname !== '/register' && <Footer />
       }
-      
+
     </div>
   )
 }
